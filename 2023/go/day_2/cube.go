@@ -27,6 +27,17 @@ func getSums(b [][]byte) int {
     return sum
 }
 
+func roundValues(b []byte) (int, int, int) {
+    redsRex := regexp.MustCompile("([0-9]+) red")
+    bluesRex := regexp.MustCompile("([0-9]+) blue")
+    greensRex := regexp.MustCompile("([0-9]+) green")
+
+    reds := getSums(redsRex.FindSubmatch(b))
+    blues := getSums(bluesRex.FindSubmatch(b))
+    greens := getSums(greensRex.FindSubmatch(b))
+    return reds, blues, greens
+}
+
 func roundValid(b []byte) bool {
     maxRed := 12
     maxGreen := 13
@@ -47,8 +58,41 @@ func roundValid(b []byte) bool {
 
 }
 
-func main() {
+func mainPart2() {
+    gamesPower := 0
 
+    lines := readInput()
+    for _, line := range lines {
+        if line == "" {
+            continue
+        }
+
+        minRed := 0
+        minBlue := 0 
+        minGreen := 0
+
+        rounds := strings.Split(line, ";")
+        for _, round := range rounds {
+            red, blue, green := roundValues([]byte(round))
+            if red > minRed {
+                minRed = red
+            }
+            if blue > minBlue {
+                minBlue = blue
+            }
+            if green > minGreen {
+                minGreen = green
+            }
+        }
+
+        power := minRed * minBlue * minGreen
+        gamesPower += power
+    }
+
+    fmt.Println(gamesPower)
+}
+
+func mainPart1() {
     gameNumSums := 0
     gameNumRex := regexp.MustCompile(`Game (\d+):`)
 
@@ -78,4 +122,8 @@ func main() {
     }
 
     fmt.Println(gameNumSums)
+}
+
+func main() {
+    mainPart2()
 }
