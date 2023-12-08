@@ -26,7 +26,7 @@ func parseLine(line string) ([]string, []string) {
 	return winnersStr, cardNumsStr
 }
 
-func main() {
+func main_part_1() {
 	lines := common.ReadInput("day_4/input.txt")
 	points := 0
 	for _, line := range lines {
@@ -58,4 +58,52 @@ func main() {
 		fmt.Printf("Matched nums: %q\nCard points: %d\n", matchedNums, cardPoints)
 	}
 	fmt.Printf("Total points: %d\n", points) // 646754 too high 323378 too high
+}
+
+func main_part_2() {
+	lines := common.ReadInput("day_4/input.txt")
+	cards := 0
+	var nextCardCoppies []int
+	for index, line := range lines {
+		if line == "" {
+			continue
+		}
+		winners, cardNums := parseLine(line)
+
+		// Get the count of winning numbers
+		winningCardNums := 0
+		for _, cardNum := range cardNums {
+			for _, winner := range winners {
+				if cardNum == winner {
+					winningCardNums++
+					break
+				}
+			}
+		}
+
+		coppies := 0
+		if len(nextCardCoppies) != 0 {
+			coppies = nextCardCoppies[0]
+			nextCardCoppies = nextCardCoppies[1:]
+		}
+
+		for i := 0; i < coppies+1; i++ {
+			for j := 0; j < winningCardNums; j++ {
+				if j < len(nextCardCoppies) {
+					nextCardCoppies[j]++
+				} else {
+					nextCardCoppies = append(nextCardCoppies, 1)
+				}
+			}
+		}
+
+		cards += coppies + 1
+		fmt.Printf("Card %d: (%d coppies) %d winners, %v nextCardCoppies\n", index+1, coppies, winningCardNums, nextCardCoppies)
+	}
+	fmt.Printf("Total cards: %d\n", cards) // 646754 too high 323378 too high
+}
+
+func main() {
+	//main_part_1()
+	main_part_2()
 }
