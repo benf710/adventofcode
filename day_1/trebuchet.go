@@ -3,8 +3,9 @@ package day_1
 import (
 	"errors"
 	"fmt"
-	"os"
 	"strings"
+
+	"github.com/benf710/adventofcode/common"
 )
 
 func reverseString(s string) string {
@@ -77,18 +78,8 @@ func convertNums(s string) string {
 	return s
 }
 
-func readInput() []string {
-	bytes, err := os.ReadFile("day_1/input.txt")
-	if err != nil {
-		panic(err)
-	}
-	dat := string(bytes)
-	strs := strings.Split(strings.ReplaceAll(dat, "\r\n", "\n"), "\n")
-	return strs
-}
-
 func main() {
-	strs := readInput()
+	strs := common.ReadInput("day_1/input.txt")
 	sums := 0
 	for _, str := range strs {
 		normalized_str := convertNums(str)
