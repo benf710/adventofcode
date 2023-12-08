@@ -8,7 +8,7 @@ import (
 )
 
 func getSymbolIndecies(line string) []int {
-	symbols := []string{"@", "#", "$", "%", "&", "*", "/"}
+	symbols := []string{"@", "#", "$", "%", "&", "*", "/", "=", "+", "-"}
 	var SymbolIndecies []int
 	for j, char := range line {
 		for _, symbol := range symbols {
@@ -98,5 +98,5 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Sum: %d\n", sum) // 458562 too low
+	fmt.Printf("Sum: %d\n", sum) // 458562 too low, 519,840 too low
 }
